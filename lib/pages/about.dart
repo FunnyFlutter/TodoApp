@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/component/image_hero.dart';
 import 'package:todo_list/const/route_url.dart';
 
 class AboutPage extends StatelessWidget {
@@ -15,7 +16,7 @@ class AboutPage extends StatelessWidget {
               child: Container(
                 child: Center(
                   child: FractionallySizedBox(
-                    child: Image.asset('assets/images/mark.png'),
+                    child: ImageHero.asset('assets/images/mark.png'),
                     widthFactor: 0.3,
                     heightFactor: 0.3,
                   ),
@@ -53,7 +54,8 @@ class AboutPage extends StatelessWidget {
                       ),
                       child: FlatButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacementNamed(LOGIN_PAGE_URL);
+                          Navigator.of(context)
+                              .pushReplacementNamed(LOGIN_PAGE_URL);
                         },
                         color: Colors.red,
                         disabledColor: Colors.red,

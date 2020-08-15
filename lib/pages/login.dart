@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/component/fractionally_sized_trasition.dart';
+import 'package:todo_list/component/image_hero.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
 
@@ -89,7 +90,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                     child: Container(
                       child: Center(
                         child: FractionallySizedTransition(
-                          child: Image.asset('assets/images/mark.png'),
+                          child: ImageHero.asset('assets/images/mark.png'),
                           factor: _animation,
                         ),
                       ),
