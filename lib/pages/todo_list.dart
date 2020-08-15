@@ -20,7 +20,7 @@ class TodoListPageState extends State<TodoListPage> {
   @override
   void initState() {
     super.initState();
-    todoList = TodoList(generateTodos(100));
+    todoList = TodoList(generateTodos(3));
   }
 
   void addTodo(Todo todo) {
@@ -35,9 +35,9 @@ class TodoListPageState extends State<TodoListPage> {
       appBar: AppBar(
         title: Text('清单'),
       ),
-      body: ListView.builder(
-        itemCount: todoList.length,
-        itemBuilder: (context, index) {
+      body: AnimatedList(
+        initialItemCount: todoList.length,
+        itemBuilder: (BuildContext context, int index, Animation<double> animation) {
           return TodoItem(
             todo: todoList.list[index],
             onTap: (Todo todo) async {
