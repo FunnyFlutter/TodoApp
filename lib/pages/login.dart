@@ -7,22 +7,45 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
   bool canLogin;
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
+  Animation<double> _animation;
+  AnimationController _animationController;
+
   @override
   void initState() {
     super.initState();
     canLogin = false;
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 1000),
+    );
+    Animation<double> parentAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.bounceIn,
+    );
+    Tween<double> tween = Tween<double>(begin: 0.4, end: 0.5);
+    _animation = tween.animate(parentAnimation);
+    _animationController.addListener(() {
+      setState(() {});
+    });
+    _animationController.forward().then((value) => _animationController.reverse());
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   void _checkInputValid(String _) {
     // 这里的参数写成 _ 是表示在这里我们没有使用这个参数，这是一种比较约定俗称的写法
-    bool isInputValid = _emailController.text.contains('@') &&
-        _passwordController.text.length >= 6;
+    bool isInputValid =
+        _emailController.text.contains('@') && _passwordController.text.length >= 6;
     if (isInputValid == canLogin) {
       return;
     }
@@ -62,8 +85,8 @@ class _LoginPageState extends State<LoginPage> {
                       child: Center(
                         child: FractionallySizedBox(
                           child: Image.asset('assets/images/mark.png'),
-                          widthFactor: 0.4,
-                          heightFactor: 0.4,
+                          widthFactor: _animation.value,
+                          heightFactor: _animation.value,
                         ),
                       ),
                     ),
