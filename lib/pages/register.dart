@@ -47,6 +47,13 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
+  void _register() {
+    if (!canRegister) {
+      return;
+    }
+    Navigator.of(context).pushReplacementNamed(TODO_ENTRY_PAGE_URL);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -166,7 +173,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               bottom: 12,
                             ),
                             child: FlatButton(
-                              onPressed: canRegister ? () {} : null,
+                              onPressed: canRegister ? _register : null,
                               child: Text(
                                 '注册并登录',
                                 style: TextStyle(

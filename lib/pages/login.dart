@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    canLogin = false;
+    canLogin = true;
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1000),
@@ -60,6 +60,13 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         LOGIN_PAGE_URL,
       ),
     );
+  }
+
+  void _login() {
+    if (!canLogin) {
+      return;
+    }
+    Navigator.of(context).pushReplacementNamed(TODO_ENTRY_PAGE_URL);
   }
 
   @override
@@ -134,7 +141,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                               bottom: 12,
                             ),
                             child: FlatButton(
-                              onPressed: canLogin ? () {} : null,
+                              onPressed: canLogin ? _login : null,
                               child: Text(
                                 '登录',
                                 style: TextStyle(
