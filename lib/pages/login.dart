@@ -11,6 +11,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
   bool canLogin;
+  bool useHero;
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -22,6 +23,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
   void initState() {
     super.initState();
     canLogin = true;
+    useHero = true;
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1000),
@@ -67,11 +69,15 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     if (!canLogin) {
       return;
     }
+    setState(() {
+      useHero = false;
+    });
     Navigator.of(context).pushReplacementNamed(TODO_ENTRY_PAGE_URL);
   }
 
   @override
   Widget build(BuildContext context) {
+    String markAssetName = 'assets/images/mark.png';
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -90,7 +96,9 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                     child: Container(
                       child: Center(
                         child: FractionallySizedTransition(
-                          child: ImageHero.asset('assets/images/mark.png'),
+                          child: useHero
+                              ? ImageHero.asset(markAssetName)
+                              : Image.asset(markAssetName),
                           factor: _animation,
                         ),
                       ),
