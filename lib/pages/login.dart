@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/component/fractionally_sized_trasition.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
 
@@ -30,9 +31,6 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     );
     Tween<double> tween = Tween<double>(begin: 0.4, end: 0.5);
     _animation = tween.animate(parentAnimation);
-    _animationController.addListener(() {
-      setState(() {});
-    });
     _animationController.forward().then((value) => _animationController.reverse());
   }
 
@@ -83,10 +81,9 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                   Expanded(
                     child: Container(
                       child: Center(
-                        child: FractionallySizedBox(
+                        child: FractionallySizedTransition(
                           child: Image.asset('assets/images/mark.png'),
-                          widthFactor: _animation.value,
-                          heightFactor: _animation.value,
+                          factor: _animation,
                         ),
                       ),
                     ),
