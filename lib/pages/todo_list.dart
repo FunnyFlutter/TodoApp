@@ -16,6 +16,7 @@ class TodoListPage extends StatefulWidget {
 
 class TodoListPageState extends State<TodoListPage> {
   TodoList todoList;
+  GlobalKey<AnimatedListState> animatedListKey = GlobalKey<AnimatedListState>();
 
   @override
   void initState() {
@@ -24,9 +25,9 @@ class TodoListPageState extends State<TodoListPage> {
   }
 
   void addTodo(Todo todo) {
-    setState(() {
-      todoList.add(todo);
-    });
+    todoList.add(todo);
+    int index = todoList.list.indexOf(todo);
+    animatedListKey.currentState.insertItem(index);
   }
 
   @override
@@ -36,48 +37,56 @@ class TodoListPageState extends State<TodoListPage> {
         title: Text('清单'),
       ),
       body: AnimatedList(
+        key: animatedListKey,
         initialItemCount: todoList.length,
-        itemBuilder: (BuildContext context, int index, Animation<double> animation) {
-          return TodoItem(
-            todo: todoList.list[index],
-            onTap: (Todo todo) async {
-              await Navigator.of(context).pushNamed(
-                EDIT_TODO_PAGE_URL,
-                arguments: EditTodoPageArgument(
-                  openType: OpenType.Preview,
-                  todo: todo,
-                ),
-              );
-              setState(() {
-                todoList.update();
-              });
-            },
-            onFinished: (Todo todo) {
-              setState(() {
-                todo.isFinished = !todo.isFinished;
-                todoList.update(todo);
-              });
-            },
-            onStar: (Todo todo) {
-              setState(() {
-                todo.isStar = !todo.isStar;
-                todoList.update(todo);
-              });
-            },
-            onLongPress: (Todo todo) async {
-              bool result = await showCupertinoDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return DeleteTodoDialog(
-                      todo: todo,
-                    );
-                  });
-              if (result) {
+        itemBuilder:
+            (BuildContext context, int index, Animation<double> animation) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: TodoItem(
+              todo: todoList.list[index],
+              onTap: (Todo todo) async {
+                await Navigator.of(context).pushNamed(
+                  EDIT_TODO_PAGE_URL,
+                  arguments: EditTodoPageArgument(
+                    openType: OpenType.Preview,
+                    todo: todo,
+                  ),
+                );
                 setState(() {
-                  todoList.remove(todo.id);
+                  todoList.update(todo);
                 });
-              }
-            },
+              },
+              onFinished: (Todo todo) {
+                setState(() {
+                  todo.isFinished = !todo.isFinished;
+                  todoList.update(todo);
+                });
+              },
+              onStar: (Todo todo) {
+                setState(() {
+                  todo.isStar = !todo.isStar;
+                  todoList.update(todo);
+                });
+              },
+              onLongPress: (Todo todo) async {
+                bool result = await showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return DeleteTodoDialog(
+                        todo: todo,
+                      );
+                    });
+                if (result) {
+                  setState(() {
+                    todoList.remove(todo.id);
+                  });
+                }
+              },
+            ),
           );
         },
       ),
