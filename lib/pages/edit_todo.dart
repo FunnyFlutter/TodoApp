@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/component/date_field_group.dart';
 import 'package:todo_list/component/label_group.dart';
+import 'package:todo_list/component/location_field_group.dart';
 import 'package:todo_list/component/prority_field_group.dart';
 import 'package:todo_list/component/time_filed_group.dart';
 import 'package:todo_list/const/route_argument.dart';
@@ -35,10 +36,13 @@ class _EditTodoPageState extends State<EditTodoPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map<OpenType, _OpenTypeConfig> _openTypeConfigMap;
 
-  final TextEditingController _dateTextEditingController = TextEditingController();
+  final TextEditingController _dateTextEditingController =
+      TextEditingController();
   final TextEditingController _startTimeTextEditingController =
       TextEditingController();
   final TextEditingController _endTimeTextEditingController =
+      TextEditingController();
+  final TextEditingController _locationTextEditingController =
       TextEditingController();
 
   @override
@@ -61,6 +65,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
     _dateTextEditingController.text = _todo.date.dateString;
     _startTimeTextEditingController.text = _todo.startTime.timeString;
     _endTimeTextEditingController.text = _todo.endTime.timeString;
+    _locationTextEditingController.text = _todo.location.description;
   }
 
   @override
@@ -162,6 +167,15 @@ class _EditTodoPageState extends State<EditTodoPage> {
                 ),
                 _buildPriorityFormField(
                   '优先级',
+                ),
+                _buildLocationFormField(
+                  '位置',
+                  '点击以保存当前位置',
+                  controller: _locationTextEditingController,
+                  onSaved: (Location location) {
+                    _todo.location = location;
+                    _locationTextEditingController.text = location.description;
+                  },
                 ),
               ],
             ),
@@ -306,6 +320,31 @@ class _EditTodoPageState extends State<EditTodoPage> {
               color: Colors.black26,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLocationFormField(
+    String title,
+    String hintText, {
+    TextEditingController controller,
+    Function(Location) onSaved,
+  }) {
+    return LabelGroup(
+      labelText: title,
+      labelStyle: _labelTextStyle,
+      padding: _labelPadding,
+      child: LocationFieldGroup(
+        onChange: onSaved,
+        child: TextFormField(
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.done,
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: hintText,
+            enabledBorder: _textFormBorder,
+          ),
         ),
       ),
     );
