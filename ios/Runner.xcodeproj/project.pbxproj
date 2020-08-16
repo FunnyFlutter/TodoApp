@@ -16,6 +16,7 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		F769666E24E8EAFD00B17933 /* PlatformTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F769666D24E8EAFD00B17933 /* PlatformTextView.m */; };
+		F769667124E8EB8100B17933 /* PlatformTextViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = F769667024E8EB8100B17933 /* PlatformTextViewFactory.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -52,6 +53,8 @@
 		EE885525185EF421393B67E4 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		F769666C24E8EAFD00B17933 /* PlatformTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlatformTextView.h; sourceTree = "<group>"; };
 		F769666D24E8EAFD00B17933 /* PlatformTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlatformTextView.m; sourceTree = "<group>"; };
+		F769666F24E8EB8100B17933 /* PlatformTextViewFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlatformTextViewFactory.h; sourceTree = "<group>"; };
+		F769667024E8EB8100B17933 /* PlatformTextViewFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlatformTextViewFactory.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +113,8 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				F769666C24E8EAFD00B17933 /* PlatformTextView.h */,
 				F769666D24E8EAFD00B17933 /* PlatformTextView.m */,
+				F769666F24E8EB8100B17933 /* PlatformTextViewFactory.h */,
+				F769667024E8EB8100B17933 /* PlatformTextViewFactory.m */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -290,6 +295,7 @@
 			files = (
 				978B8F6F1D3862AE00F588F7 /* AppDelegate.m in Sources */,
 				97C146F31CF9000F007C117D /* main.m in Sources */,
+				F769667124E8EB8100B17933 /* PlatformTextViewFactory.m in Sources */,
 				F769666E24E8EAFD00B17933 /* PlatformTextView.m in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 			);
