@@ -30,6 +30,29 @@ class TodoListPageState extends State<TodoListPage> {
     animatedListKey.currentState.insertItem(index);
   }
 
+  void removeTodo(Todo todo) async {
+    bool result = await showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return DeleteTodoDialog(
+            todo: todo,
+          );
+        });
+    if (result) {
+      int index = todoList.list.indexOf(todo);
+      todoList.remove(todo.id);
+      animatedListKey.currentState.removeItem(index, (
+        BuildContext context,
+        Animation<double> animation,
+      ) {
+        return SizeTransition(
+          sizeFactor: animation,
+          child: TodoItem(todo: todo),
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,8 +62,11 @@ class TodoListPageState extends State<TodoListPage> {
       body: AnimatedList(
         key: animatedListKey,
         initialItemCount: todoList.length,
-        itemBuilder:
-            (BuildContext context, int index, Animation<double> animation) {
+        itemBuilder: (
+          BuildContext context,
+          int index,
+          Animation<double> animation,
+        ) {
           return SlideTransition(
             position: Tween<Offset>(
               begin: Offset(1, 0),
@@ -72,20 +98,7 @@ class TodoListPageState extends State<TodoListPage> {
                   todoList.update(todo);
                 });
               },
-              onLongPress: (Todo todo) async {
-                bool result = await showCupertinoDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return DeleteTodoDialog(
-                        todo: todo,
-                      );
-                    });
-                if (result) {
-                  setState(() {
-                    todoList.remove(todo.id);
-                  });
-                }
-              },
+              onLongPress: removeTodo,
             ),
           );
         },
