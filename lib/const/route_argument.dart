@@ -19,3 +19,9 @@ class EditTodoPageArgument {
 
   EditTodoPageArgument({this.openType, this.todo});
 }
+
+class LocationDetailArgument {
+  final Location location;
+
+  LocationDetailArgument(this.location);
+}
