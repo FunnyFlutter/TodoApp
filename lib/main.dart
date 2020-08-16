@@ -5,6 +5,7 @@ import 'package:todo_list/config/colors.dart';
 import 'package:todo_list/const/route_url.dart';
 import 'package:todo_list/model/todo.dart';
 import 'package:todo_list/pages/edit_todo.dart';
+import 'package:todo_list/pages/locationi_detail.dart';
 import 'package:todo_list/pages/login.dart';
 import 'package:todo_list/pages/register.dart';
 import 'package:todo_list/pages/todo_entry.dart';
@@ -16,6 +17,7 @@ final Map<String, WidgetBuilder> routes = {
   REGISTER_PAGE_URL: (context) => RegisterPage(),
   TODO_ENTRY_PAGE_URL: (context) => TodoEntryPage(),
   EDIT_TODO_PAGE_URL: (context) => EditTodoPage(),
+  LOCATION_DETAIL_PAGE_URL: (context) => LocationDetailPage(),
 };
 
 class MyApp extends StatelessWidget {

@@ -5,6 +5,7 @@ import 'package:todo_list/component/location_field_group.dart';
 import 'package:todo_list/component/prority_field_group.dart';
 import 'package:todo_list/component/time_filed_group.dart';
 import 'package:todo_list/const/route_argument.dart';
+import 'package:todo_list/const/route_url.dart';
 import 'package:todo_list/extension/date_time.dart';
 import 'package:todo_list/extension/time_of_day.dart';
 import 'package:todo_list/model/todo.dart';
@@ -335,17 +336,25 @@ class _EditTodoPageState extends State<EditTodoPage> {
       labelText: title,
       labelStyle: _labelTextStyle,
       padding: _labelPadding,
-      child: LocationFieldGroup(
-        onChange: onSaved,
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          textInputAction: TextInputAction.done,
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: hintText,
-            enabledBorder: _textFormBorder,
+      child: GestureDetector(
+        child: LocationFieldGroup(
+          onChange: onSaved,
+          child: TextFormField(
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.done,
+            controller: controller,
+            decoration: InputDecoration(
+              hintText: hintText,
+              enabledBorder: _textFormBorder,
+            ),
           ),
         ),
+        onLongPress: () {
+          Navigator.of(context).pushNamed(
+            LOCATION_DETAIL_PAGE_URL,
+            arguments: LocationDetailArgument(_todo.location),
+          );
+        },
       ),
     );
   }

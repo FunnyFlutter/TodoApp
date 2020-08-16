@@ -15,6 +15,7 @@ class LocationDetailPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           LabelGroup(
             labelText: '经度',
@@ -26,8 +27,11 @@ class LocationDetailPage extends StatelessWidget {
           ),
           LabelGroup(
             labelText: '位置',
-            child: PlatformText(
-              text: argument.location.description,
+            child: ConstrainedBox(
+              constraints: BoxConstraints.tightFor(height: 16),
+              child: PlatformText(
+                text: argument.location.description,
+              ),
             ),
           )
         ],
