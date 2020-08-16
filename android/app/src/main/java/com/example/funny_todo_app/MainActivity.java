@@ -26,6 +26,8 @@ public class MainActivity extends FlutterActivity {
                     }
                 }
         );
+        PlatformTextViewFactory factory=new PlatformTextViewFactory();
+        flutterEngine.getPlatformViewsController().getRegistry().registerViewFactory("platform_text_view", factory);
     }
 
     public HashMap<String, String> getCurrentPosition() {
