@@ -1,5 +1,6 @@
 #import "AppDelegate.h"
 #import "GeneratedPluginRegistrant.h"
+#import "PlatformTextViewFactory.h"
 
 @implementation AppDelegate
 
@@ -22,6 +23,8 @@
           result(FlutterMethodNotImplemented);
       }
   }];
+  PlatformTextViewFactory *factory = [[PlatformTextViewFactory alloc] init];
+  [[self registrarForPlugin:@"com.funny_flutter.todo_list.view"] registerViewFactory:factory withId:@"platform_text_view"];
   [GeneratedPluginRegistrant registerWithRegistry:self];
   // Override point for customization after application launch.
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
