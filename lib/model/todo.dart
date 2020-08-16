@@ -45,6 +45,25 @@ class Priority {
   ];
 }
 
+class Location {
+  /// 纬度
+  final double latitude;
+
+  /// 经度
+  final double longitude;
+
+  /// 地点描述
+  final String description;
+
+  /// 默认的构造器
+  const Location({this.longitude = 0, this.latitude = 0, this.description = ''});
+
+  /// 命名构造器，用于构造只有描述信息的 Location 对象
+  Location.fromDescription(this.description)
+      : latitude = 0,
+        longitude = 0;
+}
+
 class Todo {
   /// ID
   final String id;
@@ -73,6 +92,9 @@ class Todo {
   /// 是否星标任务
   bool isStar;
 
+  /// 任务所关联的位置
+  Location location;
+
   String get timeString {
     String dateString = date.compareTo(DateTime.now()) == 0 ? 'today' : '${date.year}/${date.month}/${date.day}';
     if (startTime == null || endTime == null) {
@@ -91,6 +113,7 @@ class Todo {
     this.priority = Priority.Unspecific, //优先级越小优先级越高
     this.isFinished = false,
     this.isStar = false,
+    this.location = const Location(),
   }) : this.id = id ?? generateNewId() {
     // 如果开始时间为空，则设置为当前时间
     if (date == null) {
