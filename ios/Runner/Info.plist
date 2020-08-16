@@ -45,6 +45,8 @@
 	<string>获取您的的相机权限以拍摄用户头像</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>获取您的麦克风权限以拍摄录像</string>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
