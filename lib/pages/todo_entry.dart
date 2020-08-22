@@ -3,8 +3,10 @@ import 'package:todo_list/config/colors.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
 import 'package:todo_list/model/todo.dart';
+import 'package:todo_list/model/todo_list.dart';
 import 'package:todo_list/pages/reporter.dart';
 import 'package:todo_list/pages/todo_list.dart';
+import 'package:todo_list/utils/generate_todo.dart';
 
 import 'about.dart';
 import 'calendar.dart';
@@ -20,16 +22,18 @@ class _TodoEntryPageState extends State<TodoEntryPage> {
   int currentIndex;
   List<Widget> pages;
   GlobalKey<TodoListPageState> todoListPageState = GlobalKey<TodoListPageState>();
+  TodoList todoList;
 
   @override
   void initState() {
     super.initState();
     currentIndex = 0;
+    todoList = TodoList(generateTodos(3));
     pages = <Widget>[
-      TodoListPage(key: todoListPageState),
-      CalendarPage(),
+      TodoListPage(key: todoListPageState, todoList: todoList),
+      CalendarPage(todoList: todoList),
       Container(),
-      ReporterPage(),
+      ReporterPage(todoList: todoList),
       AboutPage(),
     ];
   }
