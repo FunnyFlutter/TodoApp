@@ -40,14 +40,17 @@ class TodoListPageState extends State<TodoListPage> {
         itemBuilder: (context, index) {
           return TodoItem(
             todo: todoList.list[index],
-            onTap: (Todo todo) {
-              Navigator.of(context).pushNamed(
+            onTap: (Todo todo) async {
+              await Navigator.of(context).pushNamed(
                 EDIT_TODO_PAGE_URL,
                 arguments: EditTodoPageArgument(
                   openType: OpenType.Preview,
                   todo: todo,
                 ),
               );
+              setState(() {
+                todoList.update();
+              });
             },
             onFinished: (Todo todo) {
               setState(() {
