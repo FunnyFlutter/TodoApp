@@ -6,7 +6,6 @@ import 'package:todo_list/model/todo.dart';
 import 'package:todo_list/model/todo_list.dart';
 import 'package:todo_list/pages/reporter.dart';
 import 'package:todo_list/pages/todo_list.dart';
-import 'package:todo_list/utils/generate_todo.dart';
 
 import 'about.dart';
 import 'calendar.dart';
@@ -27,7 +26,14 @@ class _TodoEntryPageState extends State<TodoEntryPage> {
   void initState() {
     super.initState();
     currentIndex = 0;
-    todoList = TodoList(generateTodos(3));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    TodoEntryArgument arguments = ModalRoute.of(context).settings.arguments;
+    String userKey = arguments.userKey;
+    todoList = TodoList(userKey);
     pages = <Widget>[
       TodoListPage(todoList: todoList),
       CalendarPage(todoList: todoList),

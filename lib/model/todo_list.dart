@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:todo_list/model/todo.dart';
 
+import 'db_provider.dart';
+
 enum TodoListChangeType {
   Delete,
   Insert,
@@ -22,10 +24,17 @@ class TodoListChangeInfo {
 const emptyTodoListChangeInfo = TodoListChangeInfo();
 
 class TodoList extends ValueNotifier<TodoListChangeInfo> {
-  final List<Todo> _todoList;
+  List<Todo> _todoList = [];
+  DbProvider _dbProvider;
+  final String userKey;
 
-  TodoList(this._todoList) : super(emptyTodoListChangeInfo) {
-    _sort();
+  TodoList(this.userKey) : super(emptyTodoListChangeInfo) {
+    _dbProvider = DbProvider(userKey);
+    _dbProvider.loadFromDataBase().then((List<Todo> todoList) async {
+      if (todoList.isNotEmpty) {
+        todoList.forEach((e) => add(e));
+      }
+    });
   }
 
   int get length => _todoList.length;
@@ -35,6 +44,7 @@ class TodoList extends ValueNotifier<TodoListChangeInfo> {
     _todoList.add(todo);
     _sort();
     int index = _todoList.indexOf(todo);
+    _dbProvider.add(todo);
     value = TodoListChangeInfo(
       insertOrRemoveIndex: index,
       type: TodoListChangeType.Insert,
@@ -51,6 +61,7 @@ class TodoList extends ValueNotifier<TodoListChangeInfo> {
     int index = _todoList.indexOf(todo);
     List<Todo> clonedList = List.from(_todoList);
     _todoList.removeAt(index);
+    _dbProvider.remove(todo);
     value = TodoListChangeInfo(
       insertOrRemoveIndex: index,
       type: TodoListChangeType.Delete,
@@ -60,6 +71,7 @@ class TodoList extends ValueNotifier<TodoListChangeInfo> {
 
   void update(Todo todo) {
     _sort();
+    _dbProvider.update(todo);
     value = TodoListChangeInfo(
       type: TodoListChangeType.Update,
       todoList: list,
