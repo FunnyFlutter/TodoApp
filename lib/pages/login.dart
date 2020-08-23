@@ -4,6 +4,7 @@ import 'package:todo_list/component/fractionally_sized_trasition.dart';
 import 'package:todo_list/component/image_hero.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
+import 'package:todo_list/model/login_center.dart';
 import 'package:todo_list/model/network_client.dart';
 import 'package:todo_list/utils/network.dart';
 
@@ -96,7 +97,11 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     setState(() {
       useHero = false;
     });
-    Navigator.of(context).pushReplacementNamed(TODO_ENTRY_PAGE_URL);
+    String currentUserKey = await LoginCenter.instance().login(email);
+    Navigator.of(context).pushReplacementNamed(
+      TODO_ENTRY_PAGE_URL,
+      arguments: TodoEntryArgument(currentUserKey),
+    );
   }
 
   @override

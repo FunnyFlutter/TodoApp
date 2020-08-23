@@ -5,6 +5,7 @@ import 'package:todo_list/config/colors.dart';
 import 'package:todo_list/const/route_url.dart';
 import 'package:todo_list/model/todo.dart';
 import 'package:todo_list/pages/edit_todo.dart';
+import 'package:todo_list/pages/home.dart';
 import 'package:todo_list/pages/locationi_detail.dart';
 import 'package:todo_list/pages/login.dart';
 import 'package:todo_list/pages/register.dart';
@@ -13,6 +14,7 @@ import 'package:todo_list/pages/todo_entry.dart';
 void main() => runApp(MyApp());
 
 final Map<String, WidgetBuilder> routes = {
+  HOME_PAGE_URL: (context) => HomePage(),
   LOGIN_PAGE_URL: (context) => LoginPage(),
   REGISTER_PAGE_URL: (context) => RegisterPage(),
   TODO_ENTRY_PAGE_URL: (context) => TodoEntryPage(),
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
         const Locale('en'),
         const Locale('zh', 'CN'),
       ],
-      home: routes[LOGIN_PAGE_URL](context),
+      home: routes[HOME_PAGE_URL](context),
       onGenerateRoute: (RouteSettings settings) {
         if ([REGISTER_PAGE_URL, LOGIN_PAGE_URL].contains(settings.name)) {
           return PageRouteBuilder(

@@ -25,3 +25,9 @@ class LocationDetailArgument {
 
   LocationDetailArgument(this.location);
 }
+
+class TodoEntryArgument {
+  final String userKey;
+
+  TodoEntryArgument(this.userKey);
+}

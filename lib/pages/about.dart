@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/component/image_hero.dart';
 import 'package:todo_list/const/route_url.dart';
+import 'package:todo_list/model/login_center.dart';
 
 class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('日历'),
       ),
       body: Center(
@@ -53,9 +55,9 @@ class AboutPage extends StatelessWidget {
                         bottom: 12,
                       ),
                       child: FlatButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(LOGIN_PAGE_URL);
+                        onPressed: () async {
+                          await LoginCenter.instance().logout();
+                          Navigator.of(context).pushReplacementNamed(LOGIN_PAGE_URL);
                         },
                         color: Colors.red,
                         disabledColor: Colors.red,

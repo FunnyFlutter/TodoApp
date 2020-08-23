@@ -1,3 +1,4 @@
+const HOME_PAGE_URL = '/home';
 const LOGIN_PAGE_URL = '/login';
 const REGISTER_PAGE_URL = '/register';
 const TODO_ENTRY_PAGE_URL = '/entry';

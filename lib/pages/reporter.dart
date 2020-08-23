@@ -83,6 +83,7 @@ class _ReporterPageState extends State<ReporterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('任务回顾'),
       ),
       body: Column(

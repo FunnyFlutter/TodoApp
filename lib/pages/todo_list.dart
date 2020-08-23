@@ -76,6 +76,7 @@ class TodoListPageState extends State<TodoListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('清单'),
+        automaticallyImplyLeading: false,
       ),
       body: AnimatedList(
         key: animatedListKey,

@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:todo_list/component/dialog.dart';
+import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
+import 'package:todo_list/model/login_center.dart';
 import 'package:todo_list/model/network_client.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -75,7 +77,11 @@ class _RegisterPageState extends State<RegisterPage> {
       );
       return;
     }
-    Navigator.of(context).pushReplacementNamed(TODO_ENTRY_PAGE_URL);
+    String currentUserKey = await LoginCenter.instance().login(email);
+    Navigator.of(context).pushReplacementNamed(
+      TODO_ENTRY_PAGE_URL,
+      arguments: TodoEntryArgument(currentUserKey),
+    );
   }
 
   @override
