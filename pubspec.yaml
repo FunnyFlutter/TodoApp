@@ -33,6 +33,7 @@ dependencies:
   image_picker: ^0.6.7
   uuid: ^2.2.0
   mock_data: ^1.0.0
+  table_calendar: ^2.2.2
 
 dev_dependencies:
   flutter_test:
