@@ -39,7 +39,8 @@ class Priority {
   ///  如果两个 Priority 对象的 value 相等，则它们相等；
   ///  如果一个 Priority 对象的 value 和一个整型值相等，则它们相等
   @override
-  bool operator ==(other) => other is Priority && other.value == value || other == value;
+  bool operator ==(other) =>
+      other is Priority && other.value == value || other == value;
 
   ///  重载==运算符必须同时重载 hashCode
   @override
@@ -50,7 +51,8 @@ class Priority {
   bool isHigher(Priority other) => other != null && other.value > value;
 
   ///  支持用整型值创建 Priority 对象
-  factory Priority(int priority) => values.firstWhere((e) => e.value == priority, orElse: () => Low);
+  factory Priority(int priority) =>
+      values.firstWhere((e) => e.value == priority, orElse: () => Low);
 
   ///  下面定义了允许用户使用的4个枚举值
   static const Priority High = Priority._(0, '高优先级', Color(0xFFE53B3B));
@@ -117,7 +119,9 @@ class Todo {
   Location location;
 
   String get timeString {
-    String dateString = date.compareTo(DateTime.now()) == 0 ? 'today' : '${date.year}/${date.month}/${date.day}';
+    String dateString = date.compareTo(DateTime.now()) == 0
+        ? 'today'
+        : '${date.year}/${date.month}/${date.day}';
     if (startTime == null || endTime == null) {
       return dateString;
     }
