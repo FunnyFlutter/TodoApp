@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/component/dialog.dart';
 import 'package:todo_list/component/fractionally_sized_trasition.dart';
 import 'package:todo_list/component/image_hero.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
+import 'package:todo_list/model/network_client.dart';
 import 'package:todo_list/utils/network.dart';
 
 class LoginPage extends StatefulWidget {
@@ -71,6 +73,24 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       return;
     }
     if (await checkConnectivityResult(context) == false) {
+      return;
+    }
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    showDialog(
+      context: context,
+      builder: (buildContext) => ProgressDialog(text: '请求中'),
+    );
+    String result = await NetworkClient.instance().login(email, password);
+    Navigator.of(context).pop();
+    if (result.isNotEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => SimpleAlertDialog(
+          title: '服务器返回信息',
+          content: '登录失败，错误信息为：\n$result',
+        ),
+      );
       return;
     }
     setState(() {
