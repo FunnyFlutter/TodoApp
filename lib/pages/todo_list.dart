@@ -7,10 +7,7 @@ import 'package:todo_list/model/todo.dart';
 import 'package:todo_list/model/todo_list.dart';
 
 class TodoListPage extends StatefulWidget {
-  const TodoListPage({
-    Key key,
-    this.todoList,
-  }) : super(key: key);
+  const TodoListPage({this.todoList});
 
   final TodoList todoList;
 
@@ -26,12 +23,39 @@ class TodoListPageState extends State<TodoListPage> {
   void initState() {
     super.initState();
     todoList = widget.todoList;
+    todoList.addListener(_updateTodoList);
+  }
+
+  void _updateTodoList() {
+    TodoListChangeInfo changeInfo = todoList.value;
+    if (changeInfo.type == TodoListChangeType.Update) {
+      setState(() {});
+    } else if (changeInfo.type == TodoListChangeType.Delete) {
+      Todo todo = changeInfo.todoList[changeInfo.insertOrRemoveIndex];
+      animatedListKey.currentState.removeItem(changeInfo.insertOrRemoveIndex, (
+        BuildContext context,
+        Animation<double> animation,
+      ) {
+        return SizeTransition(
+          sizeFactor: animation,
+          child: TodoItem(todo: todo),
+        );
+      });
+    } else if (changeInfo.type == TodoListChangeType.Insert) {
+      animatedListKey.currentState.insertItem(changeInfo.insertOrRemoveIndex);
+    } else {
+      // do nothing
+    }
+  }
+
+  @override
+  void dispose() {
+    todoList.removeListener(_updateTodoList);
+    super.dispose();
   }
 
   void addTodo(Todo todo) {
     todoList.add(todo);
-    int index = todoList.list.indexOf(todo);
-    animatedListKey.currentState.insertItem(index);
   }
 
   void removeTodo(Todo todo) async {
@@ -43,17 +67,7 @@ class TodoListPageState extends State<TodoListPage> {
           );
         });
     if (result) {
-      int index = todoList.list.indexOf(todo);
       todoList.remove(todo.id);
-      animatedListKey.currentState.removeItem(index, (
-        BuildContext context,
-        Animation<double> animation,
-      ) {
-        return SizeTransition(
-          sizeFactor: animation,
-          child: TodoItem(todo: todo),
-        );
-      });
     }
   }
 
@@ -86,21 +100,15 @@ class TodoListPageState extends State<TodoListPage> {
                     todo: todo,
                   ),
                 );
-                setState(() {
-                  todoList.update(todo);
-                });
+                todoList.update(todo);
               },
               onFinished: (Todo todo) {
-                setState(() {
-                  todo.isFinished = !todo.isFinished;
-                  todoList.update(todo);
-                });
+                todo.isFinished = !todo.isFinished;
+                todoList.update(todo);
               },
               onStar: (Todo todo) {
-                setState(() {
-                  todo.isStar = !todo.isStar;
-                  todoList.update(todo);
-                });
+                todo.isStar = !todo.isStar;
+                todoList.update(todo);
               },
               onLongPress: removeTodo,
             ),
@@ -160,9 +168,7 @@ class TodoItem extends StatelessWidget {
                       GestureDetector(
                         onTap: () => onFinished(todo),
                         child: Image.asset(
-                          todo.isFinished
-                              ? 'assets/images/rect_selected.png'
-                              : 'assets/images/rect.png',
+                          todo.isFinished ? 'assets/images/rect_selected.png' : 'assets/images/rect.png',
                           width: 25,
                           height: 25,
                         ),
@@ -177,9 +183,7 @@ class TodoItem extends StatelessWidget {
                     onTap: () => onStar(todo),
                     child: Container(
                       child: Image.asset(
-                        todo.isStar
-                            ? 'assets/images/star.png'
-                            : 'assets/images/star_normal.png',
+                        todo.isStar ? 'assets/images/star.png' : 'assets/images/star_normal.png',
                       ),
                       width: 25,
                       height: 25,

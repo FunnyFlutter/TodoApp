@@ -21,7 +21,6 @@ class TodoEntryPage extends StatefulWidget {
 class _TodoEntryPageState extends State<TodoEntryPage> {
   int currentIndex;
   List<Widget> pages;
-  GlobalKey<TodoListPageState> todoListPageState = GlobalKey<TodoListPageState>();
   TodoList todoList;
 
   @override
@@ -30,12 +29,17 @@ class _TodoEntryPageState extends State<TodoEntryPage> {
     currentIndex = 0;
     todoList = TodoList(generateTodos(3));
     pages = <Widget>[
-      TodoListPage(key: todoListPageState, todoList: todoList),
+      TodoListPage(todoList: todoList),
       CalendarPage(todoList: todoList),
       Container(),
       ReporterPage(todoList: todoList),
       AboutPage(),
     ];
+  }
+
+  void dispose() {
+    todoList.dispose();
+    super.dispose();
   }
 
   BottomNavigationBarItem _buildBottomNavigationBarItem(
@@ -80,7 +84,7 @@ class _TodoEntryPageState extends State<TodoEntryPage> {
       );
       if (todo != null) {
         index = 0;
-        todoListPageState.currentState.addTodo(todo);
+        todoList.add(todo);
       }
       return;
     }
