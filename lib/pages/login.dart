@@ -3,6 +3,7 @@ import 'package:todo_list/component/fractionally_sized_trasition.dart';
 import 'package:todo_list/component/image_hero.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
+import 'package:todo_list/utils/network.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -65,8 +66,11 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     );
   }
 
-  void _login() {
+  void _login() async {
     if (!canLogin) {
+      return;
+    }
+    if (await checkConnectivityResult(context) == false) {
       return;
     }
     setState(() {
