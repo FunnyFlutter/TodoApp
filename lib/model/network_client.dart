@@ -31,4 +31,41 @@ class NetworkClient {
     }
     return result['error'];
   }
+
+  Future<String> register(
+    String email,
+    String password, {
+    File image,
+  }) async {
+    Map result;
+    try {
+      String responseJson;
+      String url = '$baseUrl/register';
+      if (image != null && image.existsSync()) {
+        MultipartRequest request = MultipartRequest('POST', Uri.parse(url));
+        request.fields['email'] = email;
+        request.fields['password'] = password;
+        MultipartFile file =
+            await MultipartFile.fromPath('image', image.absolute.path);
+        request.files.add(file);
+        StreamedResponse response = await request.send();
+        responseJson = await response.stream.bytesToString();
+      } else {
+        Response response = await post(
+          url,
+          body: jsonEncode({
+            'email': email,
+            'password': password,
+          }),
+          headers: commonHeaders,
+        );
+        responseJson = response.body;
+      }
+
+      result = JsonDecoder().convert(responseJson);
+    } catch (e) {
+      result['error'] = '注册失败\n错误信息为 $e';
+    }
+    return result['error'];
+  }
 }

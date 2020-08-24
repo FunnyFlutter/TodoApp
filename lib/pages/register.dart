@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:todo_list/component/dialog.dart';
 import 'package:todo_list/const/route_url.dart';
+import 'package:todo_list/model/network_client.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -47,8 +49,30 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  void _register() {
+  void _register() async {
     if (!canRegister) {
+      return;
+    }
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    showDialog(
+      context: context,
+      builder: (buildContext) => ProgressDialog(text: '请求中'),
+    );
+    String result = await NetworkClient.instance().register(
+      email,
+      password,
+      image: image,
+    );
+    Navigator.of(context).pop();
+    if (result.isNotEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => SimpleAlertDialog(
+          title: '服务器返回信息',
+          content: '注册失败，错误信息为：\n$result',
+        ),
+      );
       return;
     }
     Navigator.of(context).pushReplacementNamed(TODO_ENTRY_PAGE_URL);
