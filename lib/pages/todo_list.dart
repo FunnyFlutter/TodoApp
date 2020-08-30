@@ -78,43 +78,46 @@ class TodoListPageState extends State<TodoListPage> {
         title: Text('清单'),
         automaticallyImplyLeading: false,
       ),
-      body: AnimatedList(
-        key: animatedListKey,
-        initialItemCount: todoList.length,
-        itemBuilder: (
-          BuildContext context,
-          int index,
-          Animation<double> animation,
-        ) {
-          return SlideTransition(
-            position: Tween<Offset>(
-              begin: Offset(1, 0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: TodoItem(
-              todo: todoList.list[index],
-              onTap: (Todo todo) async {
-                await Navigator.of(context).pushNamed(
-                  EDIT_TODO_PAGE_URL,
-                  arguments: EditTodoPageArgument(
-                    openType: OpenType.Preview,
-                    todo: todo,
-                  ),
-                );
-                todoList.update(todo);
-              },
-              onFinished: (Todo todo) {
-                todo.isFinished = !todo.isFinished;
-                todoList.update(todo);
-              },
-              onStar: (Todo todo) {
-                todo.isStar = !todo.isStar;
-                todoList.update(todo);
-              },
-              onLongPress: removeTodo,
-            ),
-          );
-        },
+      body: RefreshIndicator(
+        onRefresh: () => widget.todoList.syncWithNetwork(),
+        child: AnimatedList(
+          key: animatedListKey,
+          initialItemCount: todoList.length,
+          itemBuilder: (
+            BuildContext context,
+            int index,
+            Animation<double> animation,
+          ) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: Offset(1, 0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: TodoItem(
+                todo: todoList.list[index],
+                onTap: (Todo todo) async {
+                  await Navigator.of(context).pushNamed(
+                    EDIT_TODO_PAGE_URL,
+                    arguments: EditTodoPageArgument(
+                      openType: OpenType.Preview,
+                      todo: todo,
+                    ),
+                  );
+                  todoList.update(todo);
+                },
+                onFinished: (Todo todo) {
+                  todo.isFinished = !todo.isFinished;
+                  todoList.update(todo);
+                },
+                onStar: (Todo todo) {
+                  todo.isStar = !todo.isStar;
+                  todoList.update(todo);
+                },
+                onLongPress: removeTodo,
+              ),
+            );
+          },
+        ),
       ),
     );
   }

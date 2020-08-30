@@ -57,6 +57,9 @@ class _TodoEntryPageState extends State<TodoEntryPage> with WidgetsBindingObserv
     if (state == AppLifecycleState.paused) {
       NetworkClient.instance().uploadList(todoList.list, userKey);
     }
+    if (state == AppLifecycleState.resumed) {
+      todoList.syncWithNetwork();
+    }
     super.didChangeAppLifecycleState(state);
   }
 
