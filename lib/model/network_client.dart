@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
+import 'package:todo_list/model/todo.dart';
 
 const Map<String, String> commonHeaders = {'Content-Type': 'application/json'};
 final String baseUrl =
@@ -65,6 +66,27 @@ class NetworkClient {
       result = JsonDecoder().convert(responseJson);
     } catch (e) {
       result['error'] = '注册失败\n错误信息为 $e';
+    }
+    return result['error'];
+  }
+
+  Future<String> uploadList(List<Todo> list, String userKey) async {
+    Map result = {};
+    try {
+      Response response = await post(
+        '$baseUrl/list',
+        body: JsonEncoder().convert({
+          'userKey': userKey,
+          'timestamp': DateTime.now().millisecondsSinceEpoch,
+          'data': list.map((todo) => todo.toMap()).toList(),
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+      result = JsonDecoder().convert(response.body);
+    } catch (e) {
+      result['error'] = '服务器请求失败，请检查网络连接';
     }
     return result['error'];
   }
