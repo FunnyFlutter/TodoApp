@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:todo_list/model/network_client.dart';
 import 'package:todo_list/model/todo.dart';
 
 import 'db_provider.dart';
@@ -34,6 +35,7 @@ class TodoList extends ValueNotifier<TodoListChangeInfo> {
       if (todoList.isNotEmpty) {
         todoList.forEach((e) => add(e));
       }
+      syncWithNetwork();
     });
   }
 
@@ -116,5 +118,17 @@ class TodoList extends ValueNotifier<TodoListChangeInfo> {
       }
       return a.endTime.hour - b.endTime.hour;
     });
+  }
+
+  Future<void> syncWithNetwork() async {
+    FetchListResult result = await NetworkClient.instance().fetchList(userKey);
+    if (result.error.isEmpty) {
+      if (_dbProvider.editTime.isAfter(result.timestamp)) {
+        await NetworkClient.instance().uploadList(list, userKey);
+      } else {
+        List.from(_todoList).forEach((e) => remove(e.id));
+        result.data.forEach((e) => add(e));
+      }
+    }
   }
 }
