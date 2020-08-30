@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_list/config/colors.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
+import 'package:todo_list/model/network_client.dart';
 import 'package:todo_list/model/todo.dart';
 import 'package:todo_list/model/todo_list.dart';
 import 'package:todo_list/pages/reporter.dart';
@@ -17,35 +18,46 @@ class TodoEntryPage extends StatefulWidget {
   _TodoEntryPageState createState() => _TodoEntryPageState();
 }
 
-class _TodoEntryPageState extends State<TodoEntryPage> {
+class _TodoEntryPageState extends State<TodoEntryPage> with WidgetsBindingObserver {
   int currentIndex;
   List<Widget> pages;
   TodoList todoList;
+  String userKey;
 
   @override
   void initState() {
     super.initState();
     currentIndex = 0;
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     TodoEntryArgument arguments = ModalRoute.of(context).settings.arguments;
-    String userKey = arguments.userKey;
+    userKey = arguments.userKey;
     todoList = TodoList(userKey);
     pages = <Widget>[
       TodoListPage(todoList: todoList),
       CalendarPage(todoList: todoList),
       Container(),
       ReporterPage(todoList: todoList),
-      AboutPage(),
+      AboutPage(todoList: todoList, userKey: userKey),
     ];
   }
 
   void dispose() {
     todoList.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      NetworkClient.instance().uploadList(todoList.list, userKey);
+    }
+    super.didChangeAppLifecycleState(state);
   }
 
   BottomNavigationBarItem _buildBottomNavigationBarItem(

@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:todo_list/component/image_hero.dart';
 import 'package:todo_list/const/route_url.dart';
 import 'package:todo_list/model/login_center.dart';
+import 'package:todo_list/model/network_client.dart';
+import 'package:todo_list/model/todo_list.dart';
 
 class AboutPage extends StatelessWidget {
+  const AboutPage({Key key, this.todoList, this.userKey}) : super(key: key);
+
+  final TodoList todoList;
+  final String userKey;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +63,10 @@ class AboutPage extends StatelessWidget {
                       ),
                       child: FlatButton(
                         onPressed: () async {
+                          await NetworkClient.instance().uploadList(
+                            todoList.list,
+                            userKey,
+                          );
                           await LoginCenter.instance().logout();
                           Navigator.of(context).pushReplacementNamed(LOGIN_PAGE_URL);
                         },
