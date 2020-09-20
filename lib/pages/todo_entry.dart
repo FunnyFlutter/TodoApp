@@ -121,8 +121,8 @@ class _TodoEntryPageState extends State<TodoEntryPage>
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TodoList>.value(
       value: todoList,
-      child: UserKeyInheritedWidget(
-        userKey: userKey,
+      child: Provider<String>(
+        create: (_) => userKey,
         child: Scaffold(
           bottomNavigationBar: BottomNavigationBar(
             onTap: _onTabChange,

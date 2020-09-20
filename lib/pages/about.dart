@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/component/image_hero.dart';
-import 'package:todo_list/component/user_key_inerited_widget.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
 import 'package:todo_list/model/login_center.dart';
@@ -14,7 +13,6 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TodoList todoList = context.watch<TodoList>();
-    String userKey = UserKeyInheritedWidget.of(context).userKey;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -80,23 +78,27 @@ class AboutPage extends StatelessWidget {
                         top: 12,
                         bottom: 12,
                       ),
-                      child: FlatButton(
-                        onPressed: () async {
-                          await NetworkClient.instance().uploadList(
-                            todoList.list,
-                            userKey,
+                      child: Consumer<String>(
+                        builder: (_, String userKey, __) {
+                          return FlatButton(
+                            onPressed: () async {
+                              await NetworkClient.instance().uploadList(
+                                todoList.list,
+                                userKey,
+                              );
+                              await LoginCenter.instance().logout();
+                              Navigator.of(context).pushReplacementNamed(LOGIN_PAGE_URL);
+                            },
+                            color: Colors.red,
+                            disabledColor: Colors.red,
+                            child: Text(
+                              '退出登录',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                           );
-                          await LoginCenter.instance().logout();
-                          Navigator.of(context).pushReplacementNamed(LOGIN_PAGE_URL);
                         },
-                        color: Colors.red,
-                        disabledColor: Colors.red,
-                        child: Text(
-                          '退出登录',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
                       ),
                     ),
                   ],
