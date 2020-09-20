@@ -10,6 +10,7 @@ import 'package:todo_list/pages/locationi_detail.dart';
 import 'package:todo_list/pages/login.dart';
 import 'package:todo_list/pages/register.dart';
 import 'package:todo_list/pages/todo_entry.dart';
+import 'package:todo_list/pages/webview.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,6 +21,7 @@ final Map<String, WidgetBuilder> routes = {
   TODO_ENTRY_PAGE_URL: (context) => TodoEntryPage(),
   EDIT_TODO_PAGE_URL: (context) => EditTodoPage(),
   LOCATION_DETAIL_PAGE_URL: (context) => LocationDetailPage(),
+  WEB_VIEW_PAGE_URL: (context) => WebViewPage(),
 };
 
 class MyApp extends StatelessWidget {

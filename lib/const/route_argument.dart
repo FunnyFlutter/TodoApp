@@ -31,3 +31,10 @@ class TodoEntryArgument {
 
   TodoEntryArgument(this.userKey);
 }
+
+class WebViewArgument {
+  final String url;
+  final String title;
+
+  WebViewArgument(this.url, this.title);
+}

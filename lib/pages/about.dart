@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/component/image_hero.dart';
+import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
 import 'package:todo_list/model/login_center.dart';
 import 'package:todo_list/model/network_client.dart';
@@ -52,6 +53,23 @@ class AboutPage extends StatelessWidget {
                             child: Text('版本 1.0.0'),
                           ),
                         ],
+                      ),
+                    ),
+                    FlatButton(
+                      child: Text(
+                        '隐私政策',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          decoration: TextDecoration.underline,
+                          decorationStyle: TextDecorationStyle.dotted,
+                        ),
+                      ),
+                      onPressed: () => Navigator.of(context).pushNamed(
+                        WEB_VIEW_PAGE_URL,
+                        arguments: WebViewArgument(
+                          'https://forelax.space/privacy-policy/',
+                          '隐私政策',
+                        ),
                       ),
                     ),
                     Padding(
