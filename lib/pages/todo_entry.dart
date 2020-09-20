@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/component/todo_list_inherited_widget.dart';
 import 'package:todo_list/component/user_key_inerited_widget.dart';
 import 'package:todo_list/config/colors.dart';
 import 'package:todo_list/const/route_argument.dart';
@@ -9,6 +8,7 @@ import 'package:todo_list/model/todo.dart';
 import 'package:todo_list/model/todo_list.dart';
 import 'package:todo_list/pages/reporter.dart';
 import 'package:todo_list/pages/todo_list.dart';
+import 'package:provider/provider.dart';
 
 import 'about.dart';
 import 'calendar.dart';
@@ -119,8 +119,8 @@ class _TodoEntryPageState extends State<TodoEntryPage>
 
   @override
   Widget build(BuildContext context) {
-    return TodoListInheritedWidget(
-      todoList: todoList,
+    return ChangeNotifierProvider<TodoList>.value(
+      value: todoList,
       child: UserKeyInheritedWidget(
         userKey: userKey,
         child: Scaffold(
