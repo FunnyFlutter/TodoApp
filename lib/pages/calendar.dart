@@ -6,6 +6,7 @@ import 'package:todo_list/const/route_url.dart';
 import 'package:todo_list/extension/date_time.dart';
 import 'package:todo_list/model/todo.dart';
 import 'package:todo_list/model/todo_list.dart';
+import 'package:provider/provider.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key key}) : super(key: key);
@@ -24,16 +25,11 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   void initState() {
     super.initState();
-    _calendarController = CalendarController();
-    _initialDay = DateTime.now().dayTime;
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _todoList = TodoListInheritedWidget.of(context).todoList;
+    _todoList = context.read<TodoList>();
     _initDate2TodoMap();
     _todoList.addListener(_updateData);
+    _calendarController = CalendarController();
+    _initialDay = DateTime.now().dayTime;
   }
 
   @override

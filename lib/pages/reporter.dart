@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/component/scroll_option_view.dart';
-import 'package:todo_list/component/todo_list_inherited_widget.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
 import 'package:todo_list/model/todo.dart';
 import 'package:todo_list/model/todo_list.dart';
+import 'package:provider/provider.dart';
 
 class ReporterPage extends StatefulWidget {
   const ReporterPage({Key key}) : super(key: key);
@@ -24,9 +24,9 @@ class _ReporterPageState extends State<ReporterPage> {
   int currentMonth = 1;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _todoList = TodoListInheritedWidget.of(context).todoList;
+  void initState() {
+    super.initState();
+    _todoList = context.read<TodoList>();
     _initTodosOfThisMonth();
     _todoList.addListener(_updateData);
   }
