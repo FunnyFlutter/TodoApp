@@ -203,6 +203,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.6"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.4"
   path:
     dependency: transitive
     description:
@@ -259,6 +266,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.13"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.3.3"
   shared_preferences:
     dependency: "direct main"
     description:
