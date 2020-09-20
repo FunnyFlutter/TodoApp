@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/component/todo_list_inherited_widget.dart';
+import 'package:todo_list/component/user_key_inerited_widget.dart';
 import 'package:todo_list/config/colors.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
@@ -44,7 +45,7 @@ class _TodoEntryPageState extends State<TodoEntryPage>
       CalendarPage(),
       Container(),
       ReporterPage(),
-      AboutPage(userKey: userKey),
+      AboutPage(),
     ];
   }
 
@@ -120,26 +121,29 @@ class _TodoEntryPageState extends State<TodoEntryPage>
   Widget build(BuildContext context) {
     return TodoListInheritedWidget(
       todoList: todoList,
-      child: Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: _onTabChange,
-          currentIndex: currentIndex,
-          type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            _buildBottomNavigationBarItem('assets/images/lists.png'),
-            _buildBottomNavigationBarItem('assets/images/calendar.png'),
-            _buildBottomNavigationBarItem(
-              'assets/images/add.png',
-              size: 50,
-              singleImage: true,
-            ),
-            _buildBottomNavigationBarItem('assets/images/report.png'),
-            _buildBottomNavigationBarItem('assets/images/about.png'),
-          ],
-        ),
-        body: IndexedStack(
-          children: pages,
-          index: currentIndex,
+      child: UserKeyInheritedWidget(
+        userKey: userKey,
+        child: Scaffold(
+          bottomNavigationBar: BottomNavigationBar(
+            onTap: _onTabChange,
+            currentIndex: currentIndex,
+            type: BottomNavigationBarType.fixed,
+            items: <BottomNavigationBarItem>[
+              _buildBottomNavigationBarItem('assets/images/lists.png'),
+              _buildBottomNavigationBarItem('assets/images/calendar.png'),
+              _buildBottomNavigationBarItem(
+                'assets/images/add.png',
+                size: 50,
+                singleImage: true,
+              ),
+              _buildBottomNavigationBarItem('assets/images/report.png'),
+              _buildBottomNavigationBarItem('assets/images/about.png'),
+            ],
+          ),
+          body: IndexedStack(
+            children: pages,
+            index: currentIndex,
+          ),
         ),
       ),
     );
