@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/component/image_hero.dart';
+import 'package:todo_list/component/todo_list_inherited_widget.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
 import 'package:todo_list/model/login_center.dart';
@@ -7,13 +8,12 @@ import 'package:todo_list/model/network_client.dart';
 import 'package:todo_list/model/todo_list.dart';
 
 class AboutPage extends StatelessWidget {
-  const AboutPage({Key key, this.todoList, this.userKey}) : super(key: key);
-
-  final TodoList todoList;
+  const AboutPage({Key key, this.userKey}) : super(key: key);
   final String userKey;
 
   @override
   Widget build(BuildContext context) {
+    TodoList todoList = TodoListInheritedWidget.of(context).todoList;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

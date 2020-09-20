@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/component/todo_list_inherited_widget.dart';
 import 'package:todo_list/config/colors.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
@@ -18,7 +19,8 @@ class TodoEntryPage extends StatefulWidget {
   _TodoEntryPageState createState() => _TodoEntryPageState();
 }
 
-class _TodoEntryPageState extends State<TodoEntryPage> with WidgetsBindingObserver {
+class _TodoEntryPageState extends State<TodoEntryPage>
+    with WidgetsBindingObserver {
   int currentIndex;
   List<Widget> pages;
   TodoList todoList;
@@ -38,11 +40,11 @@ class _TodoEntryPageState extends State<TodoEntryPage> with WidgetsBindingObserv
     userKey = arguments.userKey;
     todoList = TodoList(userKey);
     pages = <Widget>[
-      TodoListPage(todoList: todoList),
-      CalendarPage(todoList: todoList),
+      TodoListPage(),
+      CalendarPage(),
       Container(),
-      ReporterPage(todoList: todoList),
-      AboutPage(todoList: todoList, userKey: userKey),
+      ReporterPage(),
+      AboutPage(userKey: userKey),
     ];
   }
 
@@ -116,26 +118,29 @@ class _TodoEntryPageState extends State<TodoEntryPage> with WidgetsBindingObserv
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _onTabChange,
-        currentIndex: currentIndex,
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          _buildBottomNavigationBarItem('assets/images/lists.png'),
-          _buildBottomNavigationBarItem('assets/images/calendar.png'),
-          _buildBottomNavigationBarItem(
-            'assets/images/add.png',
-            size: 50,
-            singleImage: true,
-          ),
-          _buildBottomNavigationBarItem('assets/images/report.png'),
-          _buildBottomNavigationBarItem('assets/images/about.png'),
-        ],
-      ),
-      body: IndexedStack(
-        children: pages,
-        index: currentIndex,
+    return TodoListInheritedWidget(
+      todoList: todoList,
+      child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: _onTabChange,
+          currentIndex: currentIndex,
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            _buildBottomNavigationBarItem('assets/images/lists.png'),
+            _buildBottomNavigationBarItem('assets/images/calendar.png'),
+            _buildBottomNavigationBarItem(
+              'assets/images/add.png',
+              size: 50,
+              singleImage: true,
+            ),
+            _buildBottomNavigationBarItem('assets/images/report.png'),
+            _buildBottomNavigationBarItem('assets/images/about.png'),
+          ],
+        ),
+        body: IndexedStack(
+          children: pages,
+          index: currentIndex,
+        ),
       ),
     );
   }

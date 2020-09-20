@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list/component/delete_todo_dialog.dart';
+import 'package:todo_list/component/todo_list_inherited_widget.dart';
 import 'package:todo_list/const/route_argument.dart';
 import 'package:todo_list/const/route_url.dart';
 import 'package:todo_list/model/todo.dart';
 import 'package:todo_list/model/todo_list.dart';
 
 class TodoListPage extends StatefulWidget {
-  const TodoListPage({this.todoList});
-
-  final TodoList todoList;
+  const TodoListPage();
 
   @override
   TodoListPageState createState() => TodoListPageState();
@@ -20,9 +19,9 @@ class TodoListPageState extends State<TodoListPage> {
   GlobalKey<AnimatedListState> animatedListKey = GlobalKey<AnimatedListState>();
 
   @override
-  void initState() {
-    super.initState();
-    todoList = widget.todoList;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    todoList = TodoListInheritedWidget.of(context).todoList;
     todoList.addListener(_updateTodoList);
   }
 
@@ -79,7 +78,7 @@ class TodoListPageState extends State<TodoListPage> {
         automaticallyImplyLeading: false,
       ),
       body: RefreshIndicator(
-        onRefresh: () => widget.todoList.syncWithNetwork(),
+        onRefresh: () => todoList.syncWithNetwork(),
         child: AnimatedList(
           key: animatedListKey,
           initialItemCount: todoList.length,
